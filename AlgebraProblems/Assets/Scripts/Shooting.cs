@@ -5,7 +5,7 @@ using UnityEngine;
 public class Shooting : MonoBehaviour
 {
     [SerializeField] private GameObject ball = null;
-    [SerializeField] private float power = 100;
+    [SerializeField][Range(5,50)] private float power = 20;
 
     private void Update()
     {
@@ -17,11 +17,8 @@ public class Shooting : MonoBehaviour
 
     private void Shoot()
     {
-        Vector3 mousePos = Input.mousePosition;
-        mousePos.z = Camera.main.nearClipPlane;
-        Vector3 worldPos = Camera.main.ScreenToWorldPoint(mousePos).normalized;
-
         GameObject newBall = Instantiate(ball, this.transform.position, Quaternion.identity);
-        newBall.GetComponent<Rigidbody>().AddForce(-worldPos * power);
+        float initialSpeed = newBall.GetComponent<MyPhysics>().InitialSpeed;
+        newBall.GetComponent<Rigidbody>().AddForce(Vector3.forward * initialSpeed * power);
     }
 }

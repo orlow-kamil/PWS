@@ -3,8 +3,11 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class MyPhysics : MonoBehaviour
 {
-    [SerializeField] private bool isReflect = true;
+    public float InitialSpeed { get => initialSpeed; }
+
+    [SerializeField] private float initialSpeed = 20;
     [SerializeField] private float eta = 1.5f;
+    [SerializeField] private bool isReflect = true;
     private Rigidbody _rgb;
 
     private void Awake()
@@ -22,14 +25,20 @@ public class MyPhysics : MonoBehaviour
         if (k < 0f)
             return Vector3.zero;
         else
-            return eta * input - (eta * dotNormalInput + Mathf.Sqrt(k)) * normal;
+            return (eta * input) - (eta * dotNormalInput + Mathf.Sqrt(k)) * normal;
     }
 
     private void OnCollisionEnter(Collision collision)
     {
+        if (collision.contacts.Length == 0)
+            return;
+
+        var firstCollision = collision.contacts[0];
         if (isReflect)
-            _rgb.velocity = this.Reflect(_rgb.velocity, collision.contacts[0].normal);
+            _rgb.velocity = this.Reflect(transform.forward, firstCollision.normal) * initialSpeed;
         else
-            _rgb.velocity = this.Refract(_rgb.velocity, collision.contacts[0].normal, eta);
+            _rgb.velocity = this.Refract(transform.forward, firstCollision.normal, eta) * initialSpeed;
+
+        Debug.DrawRay(firstCollision.point, _rgb.velocity * 10, Color.red, 5);
     }
 }
