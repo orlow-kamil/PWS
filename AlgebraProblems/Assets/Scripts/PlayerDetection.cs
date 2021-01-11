@@ -13,7 +13,6 @@ public class PlayerDetection : MonoBehaviour
 
     private Vector3 GetForwardVectorFrom(GameObject obj) => obj.GetComponentInChildren<Transform>().forward;
 
-
     private void Start()
     {
         if (player is null)
@@ -23,7 +22,10 @@ public class PlayerDetection : MonoBehaviour
     void Update()
     {
         this.CalculateValues();
-        this.ShowInformation();
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            this.ShowInformation();
+        }
     }
 
     private float CalculateDistance() => Mathf.Sqrt(
@@ -65,8 +67,8 @@ public class PlayerDetection : MonoBehaviour
 
     private void ShowInformation()
     {
-        //Debug.Log($"Distance : {_distance}");
-        //Debug.Log($"Angle : {_angle}");
+        Debug.Log($"Distance : {_distance}");
+        Debug.Log($"Angle : {_angle}");
         Debug.Log($"Side : {_sideUD}, {_sideLR}");
     }
 }
