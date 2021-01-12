@@ -10,6 +10,7 @@ public class PathNode : MonoBehaviour, IEquatable<PathNode>
     public int y;
 
     public int gCost, hCost, fCost;
+    public bool isWalkable;
 
     public PathNode previousNode;
 
@@ -18,6 +19,7 @@ public class PathNode : MonoBehaviour, IEquatable<PathNode>
         this.grid = grid;
         this.x = x;
         this.y = y;
+        isWalkable = true;
     }
 
     public void CalculateFCost() => fCost = gCost + hCost;

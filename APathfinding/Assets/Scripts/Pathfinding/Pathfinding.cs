@@ -60,6 +60,11 @@ public class Pathfinding : MonoBehaviour
             foreach (var neighbourNode in GetNeighboursList(currentNode))
             {
                 if (closedList.Contains(neighbourNode)) continue;
+                if(!neighbourNode.isWalkable)
+                {
+                    closedList.Add(neighbourNode);
+                    continue;
+                }
 
                 int tentaiveGCost = currentNode.gCost + CalculateDistanceCost(currentNode, neighbourNode);
                 if (tentaiveGCost < neighbourNode.gCost)
