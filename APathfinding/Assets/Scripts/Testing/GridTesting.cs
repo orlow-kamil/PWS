@@ -8,7 +8,7 @@ public class GridTesting : MonoBehaviour
     private Grid<BoolGridObject> grid;
     private void Start()
     {
-        grid = new Grid<BoolGridObject>(10, 5, 20f, new Vector3(-100, -40), (Grid<BoolGridObject> b, int x, int y) => new BoolGridObject(b, x, y));
+        grid = new Grid<BoolGridObject>(10, 5, 20f, default, (Grid<BoolGridObject> b, int x, int y) => new BoolGridObject(b, x, y));
     }
 
     private void Update()
