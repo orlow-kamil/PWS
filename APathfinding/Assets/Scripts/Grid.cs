@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using Extra;
 
 public class Grid<TGridObject>
 {
@@ -42,12 +43,13 @@ public class Grid<TGridObject>
     public void ShowGrid()
     {
         TextMesh[,] debugTextArray = new TextMesh[width, height];
+        GameObject parent = new GameObject("GridText");
 
         for (int x = 0; x < gridArray.GetLength(0); x++)
         {
             for (int y = 0; y < gridArray.GetLength(1); y++)
             {
-                debugTextArray[x, y] = UtilitsClass.CreateWorldText(gridArray[x, y]?.ToString(), null, GetWorldPosition(x, y) + new Vector3(cellSize, cellSize) * 0.5f);
+                debugTextArray[x, y] = UtilitsClass.CreateWorldText(gridArray[x, y]?.ToString(), parent.transform, GetWorldPosition(x, y) + new Vector3(cellSize, cellSize) * 0.5f);
                 CreateGridLine(x, y);
             }
         }
@@ -63,7 +65,7 @@ public class Grid<TGridObject>
         Debug.DrawLine(GetWorldPosition(x, y), GetWorldPosition(x + 1, y), Color.white, 100f);
     }
 
-    private Vector3 GetWorldPosition(int x, int y) => new Vector3(x, y) * cellSize + originPosition;
+    public Vector3 GetWorldPosition(int x, int y) => new Vector3(x, y) * cellSize + originPosition;
 
     public void GetXY(Vector3 worldPosition, out int x, out int y)
     {
@@ -73,6 +75,7 @@ public class Grid<TGridObject>
 
     public float GetWidth() => width;
     public float GetHeight() => height;
+    public float GetCellSize() => cellSize;
 
     public void SetGridObject(int x, int y, TGridObject value)
     {
@@ -108,5 +111,5 @@ public class Grid<TGridObject>
     {
         GetXY(worldPosition, out int x, out int y);
         return GetGridObject(x, y);
-    }
+    } 
 }
