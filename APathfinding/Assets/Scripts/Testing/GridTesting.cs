@@ -1,10 +1,11 @@
-﻿using System.Collections;
+﻿using Extra;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class GridTesting : MonoBehaviour
 {
-    [SerializeField] Transform background;
+    [SerializeField] Transform background = null;
     private Grid<BoolGridObject> grid;
     private void Start()
     {

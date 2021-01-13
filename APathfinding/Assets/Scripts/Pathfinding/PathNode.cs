@@ -1,9 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using System;
+﻿using System;
 
-public class PathNode : MonoBehaviour, IEquatable<PathNode>
+public class PathNode : IEquatable<PathNode>
 {
     private Grid<PathNode> grid;
     public int x;

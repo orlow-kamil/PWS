@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using System.Linq;
 
-public class Pathfinding : MonoBehaviour
+
+public class Pathfinding
 {
     private const int MOVE_STRAIGHT_COST = 10;
     private const int MOVE_DIAGONAL_COST = 14;
@@ -20,7 +18,7 @@ public class Pathfinding : MonoBehaviour
 
     public Grid<PathNode> GetGrid() => grid;
 
-    private PathNode GetNode(int x, int y) => grid.GetGridObject(x, y);
+    public PathNode GetNode(int x, int y) => grid.GetGridObject(x, y);
 
     private void GenerateGrid()
     {
@@ -40,6 +38,8 @@ public class Pathfinding : MonoBehaviour
     {
         PathNode startNode = grid.GetGridObject(startX, startY);
         PathNode endNode = grid.GetGridObject(endX, endY);
+        if (endNode == default) return null;
+
         openList = new List<PathNode> { startNode };
         closedList = new List<PathNode>();
 
@@ -86,6 +86,7 @@ public class Pathfinding : MonoBehaviour
 
     private List<PathNode> GetNeighboursList(PathNode currentNode)
     {
+        // TO DO: PRECALCULATING NEIGBOURS WHEN SETUP GRID
         List<PathNode> neighboursList = new List<PathNode>();
         if (currentNode.x - 1 >= 0)
         {
@@ -137,6 +138,7 @@ public class Pathfinding : MonoBehaviour
 
     private PathNode GetLowestFCostNode(List<PathNode> pathNodeList)
     {
+        // TO DO: OPTIMALIZATION - BINARY TREE
         PathNode lowestFCostNode = pathNodeList[0];
         for (int i = 1; i < pathNodeList.Count; i++)
         {
