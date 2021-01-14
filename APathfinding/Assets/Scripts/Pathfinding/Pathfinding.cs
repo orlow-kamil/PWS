@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-
 public class Pathfinding
 {
     private const int MOVE_STRAIGHT_COST = 10;
@@ -11,8 +10,11 @@ public class Pathfinding
     private List<PathNode> openList;
     private List<PathNode> closedList;
 
+    public static Pathfinding Instance { get; private set; }
+
     public Pathfinding(int width, int height)
     {
+        Instance = this;
         grid = new Grid<PathNode>(width, height, 10f, Vector3.zero, (Grid<PathNode> g, int x, int y) => new PathNode(g, x, y));
     }
 
@@ -32,6 +34,24 @@ public class Pathfinding
                 pathNode.previousNode = null;
             }
         }
+    }
+
+    public List<Vector3> FindPath(Vector3 startWorldPos, Vector3 endWorldPos)
+    {
+        grid.GetXY(startWorldPos, out int startX, out int startY);
+        grid.GetXY(endWorldPos, out int endX, out int endY);
+
+        List<PathNode> path = FindPath(startX, startY, endX, endY);
+
+        if (path == null)
+            return null;
+
+        List<Vector3> vectorPath = new List<Vector3>();
+        foreach (var pathNode in path)
+        {
+            vectorPath.Add(new Vector3(pathNode.x, pathNode.y) * grid.GetCellSize() + Vector3.one * grid.GetCellSize() * 0.5f + grid.GetOriginPosition());
+        }
+        return vectorPath;
     }
 
     public List<PathNode> FindPath(int startX, int startY, int endX, int endY)
