@@ -76,6 +76,7 @@ public class Grid<TGridObject>
     public float GetWidth() => width;
     public float GetHeight() => height;
     public float GetCellSize() => cellSize;
+    public Vector3 GetOriginPosition() => originPosition;
 
     public void SetGridObject(int x, int y, TGridObject value)
     {

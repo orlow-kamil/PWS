@@ -1,15 +1,20 @@
 ﻿using Extra;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class GridTesting : MonoBehaviour
 {
     [SerializeField] Transform background = null;
     private Grid<BoolGridObject> grid;
+
+    private void Awake()
+    {
+        if (background is null)
+            throw new System.ArgumentException("Background is missing");
+    }
     private void Start()
     {
         grid = new Grid<BoolGridObject>(10, 5, 20f, default, (Grid<BoolGridObject> b, int x, int y) => new BoolGridObject(b, x, y));
+
     }
 
     private void Update()
